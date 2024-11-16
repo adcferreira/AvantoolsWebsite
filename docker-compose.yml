@@ -1,0 +1,34 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: avantools-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: avantools
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "5004:27017" # MongoDB mapped externally to port 5003
+    networks:
+      - backend_network
+
+  backend:
+    build: ./backend
+    container_name: avantools-backend
+    ports:
+      - "5003:5000" # Backend accessible externally on port 5003
+    environment:
+      - MONGO_URI=mongodb://root:example@avantools-mongodb:27017/avantools?authSource=admin # Correct MongoDB URI
+      - STRIPE_SECRET_KEY=your_stripe_secret_key_here
+    depends_on:
+      - mongodb
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
