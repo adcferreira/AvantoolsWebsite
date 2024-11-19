@@ -1,10 +1,11 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const productRoutes = require("./routes/productRoutes");
-const rentalRoutes = require("./routes/rentalRoutes");
-const orderRoutes = require("./routes/orderRoutes");
-const cors = require("cors"); // Add CORS middleware if needed
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import helmet from "helmet"; // Security headers
+import cors from "cors"; // Add CORS middleware if needed
+import bodyParser from "body-parser";
+import productRoutes from "./routes/productRoutes";
+import orderRoutes from "./routes/orderRoutes";
 
 dotenv.config(); // Load environment variables from .env
 
@@ -17,19 +18,26 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
+// Middleware
 const app = express();
-app.use(express.json()); // Middleware to parse JSON
-app.use(cors()); // Enable CORS if needed
+app.use(json()); // Middleware to parse JSON
+app.use(cors()); //  Allow cross-origin requests
+app.use(helmet());
+app.use(bodyParser.json()); // Parse incoming JSON requests
 
-// Use route files for specific API endpoints
+// Routes
 app.use("/api/products", productRoutes);
-app.use("/api/rentals", rentalRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/payment", paymentRoutes);
+app.use("/api/customers", customerRoutes);
+
+// Admin login
+app.use("/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend is working");
 });
 
-// Set the port
+// Set port and start server
 const PORT = process.env.PORT || 5003;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

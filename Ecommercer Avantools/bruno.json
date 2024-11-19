@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Ecommercer Avantools",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

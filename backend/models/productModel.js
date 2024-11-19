@@ -1,15 +1,32 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
 // Define the product schema
-const productSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  price: { type: Number, required: true },
-  description: String,
-  imageUrl: String,
-  stockQuantity: { type: Number, default: 0 },
-});
+const baseProductSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    description: { type: String },
+    price: { type: Number, required: true },
+    imageUrl: { type: String },
+    productType: { type: String, required: true, enum: ["stock", "custom"] }, // Discriminator key
+  },
+  { discriminatorKey: "productType", timestamps: true }
+);
 
 // Create the Product model
-const Product = mongoose.model("Product", productSchema);
+export const Product = model("Product", baseProductSchema);
 
-module.exports = Product; // Export the Product model
+// Stock Product Schema
+export const StockProduct = Product.discriminator(
+  "stock",
+  new Schema({
+    stockQuantity: { type: Number, required: true, default: 0 },
+  })
+);
+
+// Custom Product Schema
+export const CustomProduct = Product.discriminator(
+  "custom",
+  new Schema({
+    contactDetails: { type: String, required: true }, // Instructions for contacting
+  })
+);
