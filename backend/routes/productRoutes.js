@@ -9,6 +9,8 @@ import {
   deleteProduct,
 } from "../controllers/productController.js";
 import { validateRequest } from "../middlewares/validateRequest.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { adminAuth } from "../middlewares/adminAuth.js";
 
 const router = express.Router();
 

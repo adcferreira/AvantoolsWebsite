@@ -1,5 +1,6 @@
 import Admin from "../models/adminModel.js";
-import { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+const { sign } = jwt;
 
 // Admin Login
 export async function adminLogin(req, res) {
@@ -22,7 +23,7 @@ export async function adminLogin(req, res) {
   }
 }
 
-// Create Admin (first-time admin creation)
+/* // Create Admin (first-time admin creation)
 export async function createAdmin(req, res) {
   const { username, password } = req.body;
 
@@ -49,4 +50,4 @@ export async function createAdmin(req, res) {
   } catch (error) {
     res.status(500).json({ error: "Error creating admin user" });
   }
-}
+} */

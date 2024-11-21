@@ -1,4 +1,5 @@
-import { verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+const { verify } = jwt;
 
 export function authMiddleware(req, res, next) {
   const token = req.header("Authorization")?.replace("Bearer ", "");

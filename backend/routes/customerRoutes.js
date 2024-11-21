@@ -2,11 +2,13 @@ import express from "express";
 import {
   registerCustomer,
   loginCustomer,
+  updateCustomer,
   deleteCustomer,
 } from "../controllers/customerController.js";
 import { body } from "express-validator";
 import rateLimit from "express-rate-limit"; // For login rate limiting
-import { authMiddleware } from "../middleware/authMiddleware.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { validateRequest } from "../middlewares/validateRequest.js";
 
 const router = express.Router();
 

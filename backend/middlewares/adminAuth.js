@@ -1,4 +1,5 @@
-import { verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+const { verify } = jwt;
 
 // Admin Authentication Middleware
 export function adminAuth(req, res, next) {

@@ -14,7 +14,7 @@ export async function createStockProduct(req, res) {
 }
 
 // Create new custom product
-export async function CreateCustomProduct(req, res) {
+export async function createCustomProduct(req, res) {
   try {
     const product = new CustomProduct(req.body);
     await product.save();
